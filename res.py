@@ -1,11 +1,12 @@
-LIST_OF_SHIPS = (4, 3, 3, 2, 2, 2, 1, 1, 1, 1)
+LIST_OF_SHIPS = (2,2,2,2,1,1,1,1)
 BOT_SHOOT_TIME = {"shoot": 1000, "hit": 1500, "destroyed": 1500}
 
 
 class Strings:
     APP_NAME = "BattleShip"
     APP_BACKGROUND = "drawable/boat.jpg"
-    APP_MUSIC = "sound/jook.wave"
+    APP_Hit_Sound = "sound/hit.wave"
+    APP_Missed_Sound = "sound/missed.wave"
 
     class MenuFrame:
         TITLE = "Menu:"
@@ -36,9 +37,7 @@ class Strings:
         DIALOG_BACK_MENU = "Do you really want to go back to menu?"
         DIALOG_CLEAR_ALL = "Do you really want to clear all ships from the map?"
 
-        SHIPS = [(4, "BATTLESHIP"),
-                 (3, "CRUISER"),
-                 (2, "DESTROYER"),
+        SHIPS = [(2, "BATTLESHIP"),
                  (1, "SUBMARINE")]
 
     class GameFrame:
@@ -48,6 +47,7 @@ class Strings:
         MSG_DEFEAT = "Unfortunately.\nYou lost the battle."
         PLAYER_SHIPS = "You:"
         ENEMY_SHIPS = "Enemy:"
+        LEFT_TIME = "Left Time"
         TURN_OF_PLAYER = "Your turn.".upper()
         TURN_OF_ENEMY = "The enemy's turn.".upper()
         WARNING_MISS = "miss!".upper()
@@ -69,12 +69,8 @@ class Strings:
         Goal:
 •   Sink all of your opponent’s ships
 
-        Setup:
-•   Each player places ships on the bottom grid
+        Manufacturer:
 
-        Rules:
-•   Take turns firing shots by calling out grid coordinates
-•   Mark shots you fire on the vertical target grid
         """
 
 

@@ -3,8 +3,10 @@ from tkinter import messagebox as msg
 from res import Strings as String
 from res import Colors as Color
 from res import BOT_SHOOT_TIME
+from res import Strings
 import objects
 import brain
+from playsound import playsound
 
 
 class MapBuilder(object):
@@ -119,7 +121,7 @@ class MapBuilder(object):
         Shows player's map on this map
         :return: None
         """
-        for i in range(1, 11):
+        for i in range(1, 9):
             ship = self.__player.get_ship(i)
             if ship is not None:
                 for j in range(ship.get_type()):
@@ -204,25 +206,25 @@ class StatusBuilder(object):
                                         font="time 10 italic")
         self.__label_battleship.pack(anchor=W)
 
-        # Cruiser
-        self.__label_cruiser = Label(root,
-                                     text=String.StatusFrame.SHIPS[1][1] + ": ",
-                                     padx=7,
-                                     pady=3,
-                                     font="time 10 italic")
-        self.__label_cruiser.pack(anchor=W)
+        # # Cruiser
+        # self.__label_cruiser = Label(root,
+        #                              text=String.StatusFrame.SHIPS[1][1] + ": ",
+        #                              padx=7,
+        #                              pady=3,
+        #                              font="time 10 italic")
+        # self.__label_cruiser.pack(anchor=W)
 
-        # Destroyer
-        self.__label_destroyer = Label(root,
-                                       text=String.StatusFrame.SHIPS[2][1] + ": ",
-                                       padx=7,
-                                       pady=3,
-                                       font="time 10 italic")
-        self.__label_destroyer.pack(anchor=W)
+        # # Destroyer
+        # self.__label_destroyer = Label(root,
+        #                                text=String.StatusFrame.SHIPS[2][1] + ": ",
+        #                                padx=7,
+        #                                pady=3,
+        #                                font="time 10 italic")
+        # self.__label_destroyer.pack(anchor=W)
 
         # Submarine
         self.__label_submarine = Label(root,
-                                       text=String.StatusFrame.SHIPS[3][1] + ": ",
+                                       text=String.StatusFrame.SHIPS[1][1] + ": ",
                                        padx=7,
                                        pady=3,
                                        font="time 10 italic")
@@ -234,12 +236,12 @@ class StatusBuilder(object):
         :return: None
         """
         self.__label_battleship.config(text=String.StatusFrame.SHIPS[0][1]+": "
-                                       + str(1 - self.__player.get_non_placed_amount(4)))
-        self.__label_cruiser.config(text=String.StatusFrame.SHIPS[1][1] + ": "
-                                    + str(2 - self.__player.get_non_placed_amount(3)))
-        self.__label_destroyer.config(text=String.StatusFrame.SHIPS[2][1] + ": "
-                                      + str(3 - self.__player.get_non_placed_amount(2)))
-        self.__label_submarine.config(text=String.StatusFrame.SHIPS[3][1] + ": "
+                                       + str(4 - self.__player.get_non_placed_amount(2)))
+        # self.__label_cruiser.config(text=String.StatusFrame.SHIPS[1][1] + ": "
+        #                             + str(2 - self.__player.get_non_placed_amount(3)))
+        # self.__label_destroyer.config(text=String.StatusFrame.SHIPS[2][1] + ": "
+        #                               + str(3 - self.__player.get_non_placed_amount(2)))
+        self.__label_submarine.config(text=String.StatusFrame.SHIPS[1][1] + ": "
                                       + str(4 - self.__player.get_non_placed_amount(1)))
 
     def get_frame(self):
@@ -355,7 +357,7 @@ class ArrangeFrame(object):
     def __init__(self, context):
         self.__context = context
         self.__chosen_ship = IntVar()
-        self.__chosen_ship.set(4)
+        self.__chosen_ship.set(2)
 
         # Ships choosing frame
         self.__frame_choose = Frame(self.__context.get_root())
@@ -423,7 +425,7 @@ class ArrangeFrame(object):
 
             if not possible or not ship_is_added:  # Warms if the ship cannot be placed
                 self.__show_warning(String.StatusFrame.WARNING_CANNOT_PUT
-                                    % (String.StatusFrame.SHIPS[4 - self.__chosen_ship.get()][1]), "red")
+                                    % (String.StatusFrame.SHIPS[2 - self.__chosen_ship.get()][1]), "red")
 
             # At the end, refreshing the status
             self.__on_ship_chosen()
@@ -432,10 +434,12 @@ class ArrangeFrame(object):
 
             if self.__player.is_completed():
                 self.__show_warning(String.StatusFrame.WARNING_CAN_START, "green")
+            # else:
+            #     print("can not start")
         else:
             print("StatusFrame: all", self.__chosen_ship.get(), "type ships are added")
             self.__show_warning(String.StatusFrame.WARNING_ALL_SHIPS_PUT
-                                % (String.StatusFrame.SHIPS[4 - self.__chosen_ship.get()][1]), "red")
+                                % (String.StatusFrame.SHIPS[2 - self.__chosen_ship.get()][1]), "red")
 
     def on_mouse_entered(self, event, x, y):
         """
@@ -597,6 +601,7 @@ class ArrangeFrame(object):
         :return: None - starts the game if all ships put on the map
         """
         print("StatusFrame: start button pressed...")
+        print(self.__player)
         if self.__player.is_completed():
             self.__context.on_start_game_button_pressed(self.__player)
         else:
@@ -627,7 +632,7 @@ class ArrangeFrame(object):
         Calls when one of the ships is chosen
         :return: None
         """
-        text = String.StatusFrame.HEADER_TYPE + " " + String.StatusFrame.SHIPS[4-self.__chosen_ship.get()][1]
+        text = String.StatusFrame.HEADER_TYPE + " " + String.StatusFrame.SHIPS[2-self.__chosen_ship.get()][1]
         self.__label_type.config(text=text)
 
         text = String.StatusFrame.HEADER_AMOUNT + " " + str(
@@ -727,7 +732,7 @@ class ArrangeFrame(object):
 
         # Amount variable
         self.__label_amount = Label(root,
-                                    text="Amount: 1",
+                                    text="Amount: 4",
                                     padx=10,
                                     pady=2)
         self.__label_amount.pack(anchor=W)
@@ -885,6 +890,11 @@ class GameFrame(object):
         self.__status_enemy = None
         self.__create_status_enemy_frame(self.__frame_status_enemy)
 
+        # left time frame
+        # self.__frame_left_time = Frame(self.__context.get_root())
+        # self.__left_time = None
+        # self.__create_left_time_frame(self.__frame_left_time)
+
         # Bar frame
         self.__frame_bar = Frame(self.__context.get_root())
         self.__label_turn = None
@@ -905,6 +915,9 @@ class GameFrame(object):
         if self.__is_turn_of_player:
             self.time += 1
             print("Player shoot #%d" % self.time, (x, y))
+            # playsound(Strings.APP_Missed_Sound)
+            playsound("sound/missed.wav",False)
+
             self.__last_hit_field = x, y
             self.__hit_point(x, y, self.__enemy, self.__map_enemy)
         else:
@@ -969,6 +982,16 @@ class GameFrame(object):
         self.__status_player = StatusBuilder(self, root, String.GameFrame.PLAYER_SHIPS, self.__player)
         self.__status_player.get_frame().pack()
         self.__status_player.refresh()
+    
+    #  def __create_left_time_frame(self, root):
+    #     """
+    #     Creates time frame
+    #     :param root: tkinter master - container
+    #     :return: None
+    #     """
+    #     self.__status_player = StatusBuilder(self, root, String.GameFrame.LEFT_TIME, self.time)
+    #     self.__status_player.get_frame().pack()
+    #     self.__status_player.refresh()
 
     def __create_status_enemy_frame(self, root):
         """
@@ -1058,6 +1081,7 @@ class GameFrame(object):
         point = defence.get_point_on_map(x, y)
 
         if point != 0 and point != '.':  # Checks whether the player hit a ship
+            playsound("sound/hit.wav", False)
             ship = defence.get_ship(point)  # Getting the ship at the chosen point
 
             destroyed = ship.hit(x, y)  # Hits the ship
@@ -1162,6 +1186,9 @@ class GameFrame(object):
                                          rely=0.116,
                                          anchor=NW)
         self.__frame_status_enemy.place(relx=0.247,
+                                        rely=0.116,
+                                        anchor=NW)
+        self.__frame_left_time.place(relx=0.247,
                                         rely=0.116,
                                         anchor=NW)
         self.__frame_bar.place(relx=0.05,

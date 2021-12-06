@@ -2,9 +2,9 @@ from exceptions import ShipException
 from res import MyExceptions as Errors
 import res
 
-BATTLESHIP = 4
-CRUISER = 3
-DESTROYER = 2
+BATTLESHIP = 2
+# CRUISER = 2
+# DESTROYER = 1
 SUBMARINE = 1
 HORIZONTAL = 1
 VERTICAL = 2
@@ -23,7 +23,7 @@ class Ship(object):
         """
         :param tp: int (1-4) - which type is a ship(BATTLESHIP, CRUISER, DESTROYER, SUBMARINE)
         :param orientation: int (1 or 2) - orientation of a ship (VERTICAL, HORIZONTAL)
-        :param init_y: int (1-10): X upper right coordinate of a ship
+        :param init_x: int (1-10): X upper right coordinate of a ship
         :param init_y: int (1-10): Y upper right coordinate of a ship
         """
         self.__type = tp
@@ -53,22 +53,22 @@ class Ship(object):
 
     def __str__(self):
         """
-        :return: type, orientation, coordinates, destroyed sells
+        :return: type, orientation, coordinates, destroyed cells
         """
         coors = "Coordinates: "
-        destroyed_sells = "Destroyed sells: "
+        destroyed_cells = "Destroyed cells: "
         for i in range(self.__type):
             coors += "(" + str(self.__coordinate_x[i]) + ", " + str(self.__coordinate_y[i]) + ") "
-            destroyed_sells += str(self.__destroyed[i]) + ", "
+            destroyed_cells += str(self.__destroyed[i]) + ", "
 
         string = "Type: " + str(self.__type) + "\nOrientation: " \
-                 + str(self.__orientation) + "\n" + coors + "\n" + destroyed_sells
+                 + str(self.__orientation) + "\n" + coors + "\n" + destroyed_cells
 
         return string
 
     def get_type(self):
         """
-        :return: int [1, 4] - type of the ship
+        :return: int [1, 2] - type of the ship
         """
         return self.__type
 
@@ -160,10 +160,10 @@ class Player(object):
 
     def __init__(self):
         # Amount of ships for each type: NONE, 1: SUBMARINE, 2: DESTROYER, 3: CRUISER, 4: BATTLESHIP
-        self.__shipsAmount = [None, 0, 0, 0, 0]
-        # List of ships: [0]: BATTLESHIP, [1, 2]: CRUISER, [3, 5]: DESTROYER, [6, 9]: SUBMARINE
-        self.__ships = [None, None, None, None, None,
-                        None, None, None, None, None, None]
+        self.__shipsAmount = [None, 0, 0]
+        # List of ships: [0, 1]: BATTLESHIP, [2, 3]: CRUISER, [4, 5]: DESTROYER, [6, 7]: SUBMARINE
+        self.__ships = [None, None, None, None, 
+                        None, None, None, None, None]
         # Map of the player
         self.__map = []
 
@@ -177,7 +177,7 @@ class Player(object):
     def __str__(self):
 
         string = ""
-        for i in range(10):
+        for i in range(8):
             string += "\nShip #" + str(i+1) + " >>>>>>>>>>>>>>>>>>>>>>>\n" + str(self.__ships[i+1])
 
         return string
@@ -195,13 +195,13 @@ class Player(object):
         :param tp: int - type of the ship
         :return: int - amount of the given type
         """
-        return 5 - tp - self.__shipsAmount[tp]
+        return 4 - self.__shipsAmount[tp]
 
     def is_some_ships_placed(self):
         """
         :return: True if at list one ship is placed else False
         """
-        for i in range(1, 11):
+        for i in range(1, 9):
             if self.__ships[i] is not None:
                 return True
         return False
@@ -210,7 +210,9 @@ class Player(object):
         """
         :return: True if player's all ships put on the map, False otherwise
         """
-        for i in range(1, 11):
+        for i in range(1, 9):
+            # print("------->",self.__ship[i])
+            print("i value:", i)
             if self.__ships[i] is None:
                 return False
         return True
@@ -232,12 +234,12 @@ class Player(object):
         :return: None
         """
         self.__ships[index] = None
-        if index == 1:
-            tp = 4
-        elif index in (2, 3):
-            tp = 3
-        elif index in (4, 5, 6):
+        if index == (0, 1, 2, 3):
             tp = 2
+        # elif index in (3, 4):
+        #     tp = 3
+        # elif index in (5, 6):
+        #     tp = 2
         else:
             tp = 1
         self.__shipsAmount[tp] -= 1
@@ -250,12 +252,17 @@ class Player(object):
         tp = ship.get_type()
         amount = self.__shipsAmount[tp]
 
-        if amount >= 5 - tp:
+        if amount >= 4:
             raise ShipException("All " + str(tp) + "type ships have already placed", res.MyExceptions.MAP_ERROR)
 
         # Check adding possibilities
-        if amount < 5 - tp and ship.is_possible_put_onto_map(self.__map):
-            ship_id = amount + sum([i for i in range(5 - tp)]) + 1
+        if amount < 4 and ship.is_possible_put_onto_map(self.__map):
+            if tp == 1:
+                ship_id = amount + 1
+            else:
+                ship_id =amount + 5
+            # ship_id = amount + sum([i for i in range(2)]) + 1
+            print("sum:",ship_id)
             self.__ships[ship_id] = ship
             self.__shipsAmount[tp] += 1
             ship.mark_on_map(self.__map, ship_id)

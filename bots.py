@@ -1,6 +1,7 @@
 from res import Strings as String
 import random as rd
 import datetime as dt
+from playsound import playsound
 
 
 class Fati(object):
@@ -40,6 +41,7 @@ class Fati(object):
 
         self.__time += 1
         print(">>> Bot1: shoot #%d - (%d, %d)" % (self.__time, result[0], result[1]))
+        playsound("sound/missed.wav",False)
         return result
 
     def __shoot(self):

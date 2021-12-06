@@ -1,7 +1,6 @@
 from tkinter import *
 from tkinter import messagebox as msb
 from PIL import ImageTk, Image, ImageOps
-
 import frames
 import res
 import objects
