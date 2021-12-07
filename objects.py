@@ -230,14 +230,14 @@ class Player(object):
         :return: None
         """
         self.__ships[index] = None
-        if index == (0, 1, 2, 3):
-            tp = 2
+        if index in (0, 1, 2, 3):
+            tp = 1
         # elif index in (3, 4):
         #     tp = 3
         # elif index in (5, 6):
         #     tp = 2
         else:
-            tp = 1
+            tp = 2
         self.__shipsAmount[tp] -= 1
 
     def add_ship(self, ship: Ship):

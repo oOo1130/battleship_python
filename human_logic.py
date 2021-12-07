@@ -22,7 +22,6 @@ def get_random_player():
 
     return player
 
-
 def __is_added(player, ship, index):
     """
     :param player: Player - an object Player
