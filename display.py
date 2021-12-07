@@ -5,7 +5,7 @@ from res import Colors as Color
 from res import BOT_SHOOT_TIME
 from res import Strings
 import objects
-import brain
+import human_logic
 from playsound import playsound
 
 
@@ -574,7 +574,7 @@ class ArrangeFrame(object):
         Calls when random button is clicked
         :return: None
         """
-        self.__player = brain.get_random_player()
+        self.__player = human_logic.get_random_player()
         self.__map.refresh()
         for y in range(1, 11):
             for x in range(1, 11):
@@ -890,11 +890,6 @@ class GameFrame(object):
         self.__status_enemy = None
         self.__create_status_enemy_frame(self.__frame_status_enemy)
 
-        # left time frame
-        # self.__frame_left_time = Frame(self.__context.get_root())
-        # self.__left_time = None
-        # self.__create_left_time_frame(self.__frame_left_time)
-
         # Bar frame
         self.__frame_bar = Frame(self.__context.get_root())
         self.__label_turn = None
@@ -915,8 +910,7 @@ class GameFrame(object):
         if self.__is_turn_of_player:
             self.time += 1
             print("Player shoot #%d" % self.time, (x, y))
-            # playsound(Strings.APP_Missed_Sound)
-            playsound("sound/missed.wav",False)
+            playsound(String.APP_Missed_Sound,False)
 
             self.__last_hit_field = x, y
             self.__hit_point(x, y, self.__enemy, self.__map_enemy)
@@ -982,16 +976,6 @@ class GameFrame(object):
         self.__status_player = StatusBuilder(self, root, String.GameFrame.PLAYER_SHIPS, self.__player)
         self.__status_player.get_frame().pack()
         self.__status_player.refresh()
-    
-    #  def __create_left_time_frame(self, root):
-    #     """
-    #     Creates time frame
-    #     :param root: tkinter master - container
-    #     :return: None
-    #     """
-    #     self.__status_player = StatusBuilder(self, root, String.GameFrame.LEFT_TIME, self.time)
-    #     self.__status_player.get_frame().pack()
-    #     self.__status_player.refresh()
 
     def __create_status_enemy_frame(self, root):
         """
@@ -1081,7 +1065,7 @@ class GameFrame(object):
         point = defence.get_point_on_map(x, y)
 
         if point != 0 and point != '.':  # Checks whether the player hit a ship
-            playsound("sound/hit.wav", False)
+            playsound(String.APP_Hit_Sound, False)
             ship = defence.get_ship(point)  # Getting the ship at the chosen point
 
             destroyed = ship.hit(x, y)  # Hits the ship
@@ -1188,9 +1172,9 @@ class GameFrame(object):
         self.__frame_status_enemy.place(relx=0.247,
                                         rely=0.116,
                                         anchor=NW)
-        self.__frame_left_time.place(relx=0.247,
-                                        rely=0.116,
-                                        anchor=NW)
+        # self.__frame_left_time.place(relx=0.247,
+        #                                 rely=0.116,
+        #                                 anchor=NW)
         self.__frame_bar.place(relx=0.05,
                                rely=0.03,
                                anchor=NW)

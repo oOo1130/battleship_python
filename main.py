@@ -1,10 +1,10 @@
 from tkinter import *
 from tkinter import messagebox as msb
 from PIL import ImageTk, Image, ImageOps
-import frames
+import display
 import res
 import objects
-import brain
+import human_logic
 import bots
 
 
@@ -34,14 +34,14 @@ class Main(object):
                                 relheight=1)
 
         # Setting MainFrame
-        self.__menu_frame = frames.MenuFrame(self)
+        self.__menu_frame = display.MenuFrame(self)
         self.__arrange_frame = None
         self.__game_frame = None
         self.__menu_frame.place_frame()
         self.__bot = bots.Fati()
 
         # Setting HelpFrame
-        self.__help_frame = frames.HelpFrame(self)
+        self.__help_frame = display.HelpFrame(self)
 
     def start(self):
         """
@@ -64,7 +64,7 @@ class Main(object):
         """
         print("Main: OnStartButtonPressed")
         self.__menu_frame.displace_frame()
-        self.__arrange_frame = frames.ArrangeFrame(self)
+        self.__arrange_frame = display.ArrangeFrame(self)
         self.__arrange_frame.place_frame()
 
     def on_help_button_pressed(self):
@@ -95,7 +95,7 @@ class Main(object):
         """
         print("Main: Game started!")
         self.__arrange_frame.displace_frame()
-        self.__game_frame = frames.GameFrame(self, player, brain.get_random_player())
+        self.__game_frame = display.GameFrame(self, player, human_logic.get_random_player())
         self.__game_frame.place_frame()
 
     def on_arrange_back_button_pressed(self):

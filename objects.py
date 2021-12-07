@@ -3,8 +3,6 @@ from res import MyExceptions as Errors
 import res
 
 BATTLESHIP = 2
-# CRUISER = 2
-# DESTROYER = 1
 SUBMARINE = 1
 HORIZONTAL = 1
 VERTICAL = 2
@@ -159,7 +157,7 @@ class Ship(object):
 class Player(object):
 
     def __init__(self):
-        # Amount of ships for each type: NONE, 1: SUBMARINE, 2: DESTROYER, 3: CRUISER, 4: BATTLESHIP
+        # Amount of ships for each type: NONE, 1: SUBMARINE, 2: BATTLESHIP
         self.__shipsAmount = [None, 0, 0]
         # List of ships: [0, 1]: BATTLESHIP, [2, 3]: CRUISER, [4, 5]: DESTROYER, [6, 7]: SUBMARINE
         self.__ships = [None, None, None, None, 

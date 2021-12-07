@@ -41,7 +41,7 @@ class Fati(object):
 
         self.__time += 1
         print(">>> Bot1: shoot #%d - (%d, %d)" % (self.__time, result[0], result[1]))
-        playsound("sound/missed.wav",False)
+        playsound(String.APP_Missed_Sound,False)
         return result
 
     def __shoot(self):
@@ -191,7 +191,8 @@ class Fati(object):
         return rd.randint(start, end)
 
     def __print_map(self):
-        print("\n Time:", self.__time)
+        time = 60 - self.__time
+        print("\n Time:", time)
         for i in range(1, 11):
             for j in range(1, 11):
                 print(self.__mp[i][j], end=" ")

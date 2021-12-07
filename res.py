@@ -1,16 +1,16 @@
 LIST_OF_SHIPS = (2,2,2,2,1,1,1,1)
-BOT_SHOOT_TIME = {"shoot": 1000, "hit": 1500, "destroyed": 1500}
+BOT_SHOOT_TIME = {"shoot": 1500, "hit": 1500, "destroyed": 1500}
 
 
 class Strings:
     APP_NAME = "BattleShip"
-    APP_BACKGROUND = "drawable/boat.jpg"
-    APP_Hit_Sound = "sound/hit.wave"
-    APP_Missed_Sound = "sound/missed.wave"
+    APP_BACKGROUND = "media/background_boat.jpg"
+    APP_Hit_Sound = "media/hit.wave"
+    APP_Missed_Sound = "media/missed.wave"
 
     class MenuFrame:
         TITLE = "Menu:"
-        BUTTON_START = "GAME"
+        BUTTON_START = "PLAY"
         BUTTON_HELP = "HELP"
         BUTTON_EXIT = "EXIT"
         EXIT_DIALOG_MSG = "Do you really want to exit?"
@@ -63,13 +63,11 @@ class Strings:
 
     class HelpFrame:
         MSG_HELP = """
-        Players:
-•   2
+        Players: Human & Bot
 
-        Goal:
-•   Sink all of your opponent’s ships
+        Goal: Sink all of your opponent’s ships
 
-        Manufacturer:
+        Manufacturer: Your name
 
         """
 
