@@ -21,8 +21,8 @@ class Ship(object):
         """
         :param tp: int (1-4) - which type is a ship(BATTLESHIP, CRUISER, DESTROYER, SUBMARINE)
         :param orientation: int (1 or 2) - orientation of a ship (VERTICAL, HORIZONTAL)
-        :param init_x: int (1-10): X upper right coordinate of a ship
-        :param init_y: int (1-10): Y upper right coordinate of a ship
+        :param init_x: int (1-8): X upper right coordinate of a ship
+        :param init_y: int (1-8): Y upper right coordinate of a ship
         """
         self.__type = tp
         self.__orientation = orientation
@@ -32,8 +32,8 @@ class Ship(object):
         self.__health = tp
 
         # Check weather given ship is not out of the map
-        if 1 <= init_x <= 10 and 1 <= init_y <= 10 and \
-                (orientation == HORIZONTAL and init_x + tp <= 11 or orientation == VERTICAL and init_y + tp <= 11):
+        if 1 <= init_x <= 8 and 1 <= init_y <= 8 and \
+                (orientation == HORIZONTAL and init_x + tp <= 9 or orientation == VERTICAL and init_y + tp <= 9):
 
             for i in range(self.__type):                    # Init coordinates Id and Destroyed param
 
@@ -73,8 +73,8 @@ class Ship(object):
     def hit(self, x, y):
         """
         Hit the part of the ship on the given coors
-        :param x: int (1-10) - X coordinate to check
-        :param y: int (1-10) - Y coordinate to check
+        :param x: int (1-8) - X coordinate to check
+        :param y: int (1-8) - Y coordinate to check
         :return: True if some part of the ship is destroyed, False otherwise
         """
         result = -1
@@ -92,7 +92,7 @@ class Ship(object):
     def mark_on_map(self, map_to_mark_on: list, ship_id: int):
         """
         Marks the ship to the given map
-        :param map_to_mark_on: map 10x10 list
+        :param map_to_mark_on: map 8x8 list
         :param ship_id: int - id of the ship
         :return: None
         """
@@ -120,7 +120,7 @@ class Ship(object):
 
     def is_possible_put_onto_map(self, map_to_mark_on: list):
         """
-        :param map_to_mark_on: Player map 10x10 list
+        :param map_to_mark_on: Player map 8x8 list
         :return: True if it is possible to put onto the given map, False otherwise
         """
         x = self.__coordinate_x
@@ -165,10 +165,10 @@ class Player(object):
         # Map of the player
         self.__map = []
 
-        # Creates empty map, 0: empty space, 1: ship, indexes = [1, 10]
-        for i in range(12):
+        # Creates empty map, 0: empty space, 1: ship, indexes = [1, 8]
+        for i in range(10):
             row = []
-            for j in range(12):
+            for j in range(10):
                 row.append(0)
             self.__map.append(row)
 
@@ -209,19 +209,17 @@ class Player(object):
         :return: True if player's all ships put on the map, False otherwise
         """
         for i in range(1, 9):
-            # print("------->",self.__ship[i])
-            print("i value:", i)
             if self.__ships[i] is None:
                 return False
         return True
 
     def show_map(self):
         """
-        Prints the player's map X = [1, 10], Y = [1, 10]
+        Prints the player's map X = [1, 8], Y = [1, 8]
         :return: None
         """
-        for i in range(1, 11):
-            for j in range(1, 11):
+        for i in range(1, 9):
+            for j in range(1, 9):
                 print(self.__map[i][j], end=" ")
             print()
 
@@ -259,8 +257,6 @@ class Player(object):
                 ship_id = amount + 1
             else:
                 ship_id =amount + 5
-            # ship_id = amount + sum([i for i in range(2)]) + 1
-            print("sum:",ship_id)
             self.__ships[ship_id] = ship
             self.__shipsAmount[tp] += 1
             ship.mark_on_map(self.__map, ship_id)

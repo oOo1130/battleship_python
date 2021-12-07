@@ -61,7 +61,7 @@ class MapBuilder(object):
 
     def __create_frame(self, root, width_and_height):  # Creating MapFrame getting
         """
-        Creates a map (10x10), private
+        Creates a map (8x8), private
         :param root: tkinter object (master, Frame) - container
         :param width_and_height: int - width end height of a single grid
         :return: list of tkinter Buttons
@@ -70,7 +70,7 @@ class MapBuilder(object):
         buttons = [None]
         letter_coordinates = "ABCDEFGHIJ"
 
-        for y in range(1, 11):
+        for y in range(1, 9):
 
             Label(root,
                   text=str(y)).grid(row=y, column=0)
@@ -78,7 +78,7 @@ class MapBuilder(object):
                   text=letter_coordinates[y-1]).grid(row=0, column=y)
 
             row_buttons = [None]
-            for x in range(1, 11):
+            for x in range(1, 9):
                 bt = Button(root,
                             text="",
                             width=width_and_height,
@@ -141,8 +141,8 @@ class MapBuilder(object):
         Makes a map as normal
         :return: None
         """
-        for y in range(1, 11):
-            for x in range(1, 11):
+        for y in range(1, 9):
+            for x in range(1, 9):
                 self.__buttons[y][x].config(bg=Color.MAP_COLOR)
 
     def clickable(self, state: bool):
@@ -154,8 +154,8 @@ class MapBuilder(object):
             bt_state = NORMAL
         else:
             bt_state = DISABLED
-        for y in range(1, 11):
-            for x in range(1, 11):
+        for y in range(1, 9):
+            for x in range(1, 9):
                 self.__buttons[y][x].config(state=bt_state)
 
     def get_frame(self):
@@ -174,8 +174,6 @@ class StatusBuilder(object):
 
         # Attributes
         self.__label_battleship = None
-        self.__label_cruiser = None
-        self.__label_destroyer = None
         self.__label_submarine = None
 
         # Frame status
@@ -453,8 +451,8 @@ class ArrangeFrame(object):
         if self.__player.get_non_placed_amount(self.__chosen_ship.get()) > 0:
 
             if self.__orientation:  # orientation is horizontal
-                if x + self.__chosen_ship.get() > 11:
-                    end_x = 11
+                if x + self.__chosen_ship.get() > 9:
+                    end_x = 9
                     self.__can_ship_be_put = False
                     color = Color.ERROR_COLOR
                 else:
@@ -477,8 +475,8 @@ class ArrangeFrame(object):
 
             else:  # orientation is vertical
 
-                if y + self.__chosen_ship.get() > 11:
-                    end_y = 11
+                if y + self.__chosen_ship.get() > 9:
+                    end_y = 9
                     self.__can_ship_be_put = False
                     color = Color.ERROR_COLOR
                 else:
@@ -513,8 +511,8 @@ class ArrangeFrame(object):
         event.widget.config(activebackground=Color.MAP_COLOR)
 
         if self.__orientation:  # is horizontal
-            if x + self.__chosen_ship.get() > 10:
-                end_x = 11
+            if x + self.__chosen_ship.get() > 8:
+                end_x = 9
                 self.__can_ship_be_put = False
             else:
                 end_x = x + self.__chosen_ship.get()
@@ -530,8 +528,8 @@ class ArrangeFrame(object):
 
         else:  # orientation is vertical
 
-            if y + self.__chosen_ship.get() > 10:
-                end_y = 11
+            if y + self.__chosen_ship.get() > 8:
+                end_y = 9
                 self.__can_ship_be_put = False
             else:
                 end_y = y + self.__chosen_ship.get()
@@ -576,8 +574,8 @@ class ArrangeFrame(object):
         """
         self.__player = human_logic.get_random_player()
         self.__map.refresh()
-        for y in range(1, 11):
-            for x in range(1, 11):
+        for y in range(1, 9):
+            for x in range(1, 9):
                 point = self.__player.get_point_on_map(x, y)
                 if point != 0 and point != '.':  # is ship
                     self.__map.get_button(x, y).config(bg=Color.SHIP_COLOR)
@@ -861,7 +859,7 @@ class GameFrame(object):
 
     def __init__(self, context, player: objects.Player, enemy: objects.Player):
         self.__context = context
-        self.__last_hit_field = "", ""
+        self.__last_hit_field = []
 
         # Creating players
         self.__player = player
@@ -872,7 +870,7 @@ class GameFrame(object):
         self.__map_player = None
         self.__create_player_frame(self.__frame_player)
         self.__map_player.set_player(self.__player)  # Sets the player to the created map
-        self.__map_player.connect_maps()  # Shoes the ships of the player on the map
+        self.__map_player.connect_maps()  # choose the ships of the player on the map
 
         # Enemy map frame
         self.__frame_enemy = Frame(self.__context.get_root())
@@ -1023,10 +1021,17 @@ class GameFrame(object):
         :param turn: bool - Player's turn if True else Enemy's turn
         :return: None - changes label_turn
         """
+        coords = self.__last_hit_field
+        # print("1111111111111", coord)
+        # coord_x = Strings.Char_Row[coord[0]]
+        # coord_y = coord[1]
+        # coordinate = coord_x, coord_y
+        # print("coordinate:", str(coordinate))
+
         if turn:
-            string = (String.GameFrame.WARNING_LAST_SHOT % str(self.__last_hit_field)) + String.GameFrame.TURN_OF_PLAYER
+            string = (String.GameFrame.WARNING_LAST_SHOT % str(coords)) + String.GameFrame.TURN_OF_PLAYER
         else:
-            string = (String.GameFrame.WARNING_LAST_SHOT % str(self.__last_hit_field)) + String.GameFrame.TURN_OF_ENEMY
+            string = (String.GameFrame.WARNING_LAST_SHOT % str(coords)) + String.GameFrame.TURN_OF_ENEMY
         self.__label_turn.config(text=string)
 
     def __set_warning(self, warning: str, color: str):
@@ -1122,7 +1127,7 @@ class GameFrame(object):
                                        bg=Color.DESTROYED_SHIP)
 
             # Automatically hitting adjacent points
-            if x < 10 and mp.get_button(x + 1, y).cget("bg") == Color.MAP_COLOR:
+            if x < 8 and mp.get_button(x + 1, y).cget("bg") == Color.MAP_COLOR:
                 mp.get_button(x + 1, y).config(bg=Color.BROKEN_POINT,
                                                text="*",
                                                state=DISABLED)
@@ -1130,7 +1135,7 @@ class GameFrame(object):
                 mp.get_button(x - 1, y).config(bg=Color.BROKEN_POINT,
                                                text="*",
                                                state=DISABLED)
-            if y < 10 and mp.get_button(x, y + 1).cget("bg") == Color.MAP_COLOR:
+            if y < 8 and mp.get_button(x, y + 1).cget("bg") == Color.MAP_COLOR:
                 mp.get_button(x, y + 1).config(bg=Color.BROKEN_POINT,
                                                text="*",
                                                state=DISABLED)
@@ -1138,7 +1143,7 @@ class GameFrame(object):
                 mp.get_button(x, y - 1).config(bg=Color.BROKEN_POINT,
                                                text="*",
                                                state=DISABLED)
-            if x < 10 and y < 10 and mp.get_button(x + 1, y + 1).cget("bg") == Color.MAP_COLOR:
+            if x < 8 and y < 8 and mp.get_button(x + 1, y + 1).cget("bg") == Color.MAP_COLOR:
                 mp.get_button(x + 1, y + 1).config(bg=Color.BROKEN_POINT,
                                                    text="*",
                                                    state=DISABLED)
@@ -1146,11 +1151,11 @@ class GameFrame(object):
                 mp.get_button(x - 1, y - 1).config(bg=Color.BROKEN_POINT,
                                                    text="*",
                                                    state=DISABLED)
-            if x > 1 and y < 10 and mp.get_button(x - 1, y + 1).cget("bg") == Color.MAP_COLOR:
+            if x > 1 and y < 8 and mp.get_button(x - 1, y + 1).cget("bg") == Color.MAP_COLOR:
                 mp.get_button(x - 1, y + 1).config(bg=Color.BROKEN_POINT,
                                                    text="*",
                                                    state=DISABLED)
-            if x < 10 and y > 1 and mp.get_button(x + 1, y - 1).cget("bg") == Color.MAP_COLOR:
+            if x < 8 and y > 1 and mp.get_button(x + 1, y - 1).cget("bg") == Color.MAP_COLOR:
                 mp.get_button(x + 1, y - 1).config(bg=Color.BROKEN_POINT,
                                                    text="*",
                                                    state=DISABLED)

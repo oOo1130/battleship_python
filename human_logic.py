@@ -36,10 +36,10 @@ def __is_added(player, ship, index):
     else:
         orientation = 2
     if orientation == objects.HORIZONTAL:
-        x = random.randint(1, 11 - ship)
-        y = random.randint(1, 10)
+        x = random.randint(1, 9 - ship)
+        y = random.randint(1, 8)
     else:
-        x = random.randint(1, 10)
-        y = random.randint(1, 11 - ship)
+        x = random.randint(1, 8)
+        y = random.randint(1, 9 - ship)
 
     return player.add_ship(objects.Ship(ship, orientation, x, y))

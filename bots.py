@@ -50,8 +50,8 @@ class Fati(object):
         :return: tuple of two ints - x and y, coordinate of the bot's chose
         """
         if not self.__last_ship:
-            x = self.__random(1, 10)
-            y = self.__random(1, 10)
+            x = self.__random(1, 8)
+            y = self.__random(1, 8)
 
             if not self.__mp[y][x]:
                 self.__x = x
@@ -98,13 +98,13 @@ class Fati(object):
         if where == 1 and self.__last_ship[0][1] > 1:
             result = self.__last_ship[0][0], self.__last_ship[0][1] - 1
 
-        elif where == 2 and self.__last_ship[0][1] < 10:
+        elif where == 2 and self.__last_ship[0][1] < 8:
             result = self.__last_ship[0][0], self.__last_ship[0][1] + 1
 
         elif where == 3 and self.__last_ship[0][0] > 1:
             result = self.__last_ship[0][0] - 1, self.__last_ship[0][1]
 
-        elif where == 4 and self.__last_ship[0][0] < 10:
+        elif where == 4 and self.__last_ship[0][0] < 8:
             result = self.__last_ship[0][0] + 1, self.__last_ship[0][1]
 
         if result is not None and not self.__mp[result[1]][result[0]]:
@@ -128,7 +128,7 @@ class Fati(object):
         if which == 1 and left > 1:
             result = left - 1, self.__last_ship[0][1]
 
-        if which == 2 and right < 10:
+        if which == 2 and right < 8:
             result = right + 1, self.__last_ship[0][1]
 
         if result is not None and not self.__mp[result[1]][result[0]]:
@@ -151,7 +151,7 @@ class Fati(object):
         if which == 3 and top > 1:
             result = self.__last_ship[0][0], top - 1
 
-        if which == 4 and bottom < 10:
+        if which == 4 and bottom < 8:
             result = self.__last_ship[0][0], bottom + 1
 
         if result is not None and not self.__mp[result[1]][result[0]]:
@@ -191,9 +191,9 @@ class Fati(object):
         return rd.randint(start, end)
 
     def __print_map(self):
-        time = 60 - self.__time
+        time = 100 - self.__time
         print("\n Time:", time)
-        for i in range(1, 11):
-            for j in range(1, 11):
+        for i in range(1, 9):
+            for j in range(1, 9):
                 print(self.__mp[i][j], end=" ")
             print()

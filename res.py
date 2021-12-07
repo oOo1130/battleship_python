@@ -5,8 +5,9 @@ BOT_SHOOT_TIME = {"shoot": 1500, "hit": 1500, "destroyed": 1500}
 class Strings:
     APP_NAME = "BattleShip"
     APP_BACKGROUND = "media/background_boat.jpg"
-    APP_Hit_Sound = "media/hit.wave"
-    APP_Missed_Sound = "media/missed.wave"
+    APP_Hit_Sound = "media/hit.wav"
+    APP_Missed_Sound = "media/missed.wav"
+    Char_Row = ["A", "B", "C", "D", "E", "F", "G", 'H']
 
     class MenuFrame:
         TITLE = "Menu:"
