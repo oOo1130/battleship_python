@@ -1021,12 +1021,11 @@ class GameFrame(object):
         :param turn: bool - Player's turn if True else Enemy's turn
         :return: None - changes label_turn
         """
-        coords = self.__last_hit_field
-        # print("1111111111111", coord)
-        # coord_x = Strings.Char_Row[coord[0]]
-        # coord_y = coord[1]
-        # coordinate = coord_x, coord_y
-        # print("coordinate:", str(coordinate))
+        coords = tuple(self.__last_hit_field)
+        if coords:
+            coord_x = coords[1]
+            coord_y = Strings.Char_Row[int(coords[0]) - 1]
+            coords = coord_y + str(coord_x)
 
         if turn:
             string = (String.GameFrame.WARNING_LAST_SHOT % str(coords)) + String.GameFrame.TURN_OF_PLAYER

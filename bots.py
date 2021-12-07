@@ -2,6 +2,8 @@ from res import Strings as String
 import random as rd
 import datetime as dt
 from playsound import playsound
+import sys
+sys.setrecursionlimit(2000)
 
 
 class Fati(object):
@@ -52,7 +54,6 @@ class Fati(object):
         if not self.__last_ship:
             x = self.__random(1, 8)
             y = self.__random(1, 8)
-
             if not self.__mp[y][x]:
                 self.__x = x
                 self.__y = y

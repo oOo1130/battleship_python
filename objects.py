@@ -230,7 +230,7 @@ class Player(object):
         :return: None
         """
         self.__ships[index] = None
-        if index in (0, 1, 2, 3):
+        if index in (1, 2, 3, 4):
             tp = 1
         # elif index in (3, 4):
         #     tp = 3

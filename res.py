@@ -1,5 +1,5 @@
 LIST_OF_SHIPS = (2,2,2,2,1,1,1,1)
-BOT_SHOOT_TIME = {"shoot": 1500, "hit": 1500, "destroyed": 1500}
+BOT_SHOOT_TIME = {"shoot": 1000, "hit": 1500, "destroyed": 1500}
 
 
 class Strings:
@@ -8,6 +8,7 @@ class Strings:
     APP_Hit_Sound = "media/hit.wav"
     APP_Missed_Sound = "media/missed.wav"
     Char_Row = ["A", "B", "C", "D", "E", "F", "G", 'H']
+    recurison = 1
 
     class MenuFrame:
         TITLE = "Menu:"
